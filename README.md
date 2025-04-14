@@ -1,13 +1,13 @@
-//和node的cryptojs使用方法完全一样，其实就是crypto-js
+和node的cryptojs使用方法完全一样，其实就是crypto-js
 <!-- -->
 import CryptoJS from 'https://deno.land/x/cryptojs@v1.0.2/cryptojs.js';
 <!-- -->
-//md5
+
 ```
+//md5
 function getMD5(str){
     return CryptoJS.MD5(str).toString();
 };
-```
 //aes-加密
 function AES_Encrypt(word,key) {
     key = CryptoJS.enc.Hex.parse(key);
@@ -54,3 +54,4 @@ function decrypt3des(data,desKey) {
     let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
     return decryptedStr.toString()
 }
+```
