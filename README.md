@@ -1,0 +1,1 @@
+使用方法完全和node的crypto-js方式一样
