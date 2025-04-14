@@ -1,9 +1,8 @@
 和node的cryptojs使用方法完全一样，其实就是crypto-js
 <!-- -->
-import CryptoJS from 'https://deno.land/x/cryptojs@v1.0.2/cryptojs.js';
-<!-- -->
 
 ```
+import CryptoJS from 'https://deno.land/x/cryptojs@v1.0.2/cryptojs.js';
 //md5
 function getMD5(str){
     return CryptoJS.MD5(str).toString();
