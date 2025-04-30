@@ -1,56 +1,88 @@
-和node的cryptojs使用方法完全一样，其实就是crypto-js
+
 <!-- -->
 
 ```
-import CryptoJS from 'https://deno.land/x/cryptojs@v1.0.2/cryptojs.js';
-//md5
-function getMD5(str){
-    return CryptoJS.MD5(str).toString();
+import CryptoJS from 'https://deno.land/x/cryptojs@v1.0.5/cryptojs.js';
+
+// CryptoJS.MD5('message').toString();
+// CryptoJS.SHA256('message').toString();
+
+// const hmac = CryptoJS.HmacSHA256('message', 'secret').toString(CryptoJS.enc.Hex);
+// console.log('HMAC-SHA256 结果:', hmac);
+
+// AES-encrypt
+function encryptAES(text){
+	let key = CryptoJS.enc.Utf8.parse('0123456789abcdef'); // 16字节密钥
+	let iv = CryptoJS.enc.Utf8.parse('abcdef0123456789'); // 16字节偏移量
+	const encrypted = CryptoJS.AES.encrypt(text, key, {
+	    mode: CryptoJS.mode.CBC, // 加密模式
+	    padding: CryptoJS.pad.Pkcs7, // 填充方式
+	    iv,
+	});
+	return encrypted.toString();
 };
-//aes-加密
-function AES_Encrypt(word,key) {
-    key = CryptoJS.enc.Hex.parse(key);
-    let srcs = CryptoJS.enc.Utf8.parse(word);
-    let encrypted = CryptoJS.AES.encrypt(srcs, key, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7,
-        iv:''
+// AES-decrypt
+function decryptAES(text){
+	let key = CryptoJS.enc.Utf8.parse('0123456789abcdef'); // 16字节密钥
+	let iv = CryptoJS.enc.Utf8.parse('abcdef0123456789'); // 16字节偏移量
+	const decrypted = CryptoJS.AES.decrypt(text, key, {
+	    mode: CryptoJS.mode.CBC, // 加密模式
+	    padding: CryptoJS.pad.Pkcs7, // 填充方式
+	    iv,
+	});
+	return decrypted.toString(CryptoJS.enc.Utf8);
+};
+console.log(encryptAES('text'))
+console.log(decryptAES('r1K8/zmvT/G2jGop1SwTLA=='))
+
+// DES-encrypt
+function encryptDES(text) {
+    let key = CryptoJS.enc.Utf8.parse('01234567'); // 8字节密钥
+    let iv = CryptoJS.enc.Utf8.parse('abcdef01'); // 8字节偏移量
+    let encrypted = CryptoJS.DES.encrypt(text, key, { 
+    	mode: CryptoJS.mode.CBC,
+    	padding: CryptoJS.pad.Pkcs7,
+    	iv
     });
-    return CryptoJS.enc.Hex.stringify(CryptoJS.enc.Base64.parse(encrypted.toString()));
+    return encrypted.toString();
 };
-//aes-解密
-function AES_Decrypt(word,key) {
-    key = CryptoJS.enc.Hex.parse(key);
-    let srcs = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(word));
-    let decrypt = CryptoJS.AES.decrypt(srcs, key, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7,
-        iv:""
+// DES-decrypt
+function decryptDES(data) {
+    let key = CryptoJS.enc.Utf8.parse('01234567'); // 8字节密钥
+    let iv = CryptoJS.enc.Utf8.parse('abcdef01'); // 8字节偏移量
+    let decrypt = CryptoJS.TripleDES.decrypt(data, key, { 
+    	mode: CryptoJS.mode.CBC,
+    	padding: CryptoJS.pad.Pkcs7,
+    	iv
     });
     return decrypt.toString(CryptoJS.enc.Utf8);
 };
+console.log(encryptDES('text'))
+console.log(decryptDES('YfO67tNGja8='))
 
-//des-加密
-function encrypt3des(data,desKey) {
-    let key = CryptoJS.enc.Utf8.parse(desKey);
-    let dataHex = CryptoJS.enc.Utf8.parse(data);
-    let encrypted = CryptoJS.TripleDES.encrypt(dataHex, key, {
-        iv: '',
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-    })
-    let str = encrypted.ciphertext.toString(CryptoJS.enc.Base64)
-    return str
-}
-//des-解密
-function decrypt3des(data,desKey) {
-    let key = CryptoJS.enc.Utf8.parse(desKey);
-    let decrypt = CryptoJS.TripleDES.decrypt(data, key, {
-        iv: '',
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-    })
-    let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
-    return decryptedStr.toString()
-}
+// 3DES-encrypt
+function encrypt3des(text) {
+	let key = CryptoJS.enc.Utf8.parse('0123456789abcdef01234567'); // 24字节密钥
+	let iv = CryptoJS.enc.Utf8.parse('abcdef0123456789abcdef01'); // 24字节偏移量
+	let encrypted = CryptoJS.TripleDES.encrypt(text, key, {
+	    mode: CryptoJS.mode.CBC, // 加密模式
+	    padding: CryptoJS.pad.Pkcs7, // 填充方式
+	    iv,
+	});
+	return encrypted.toString();
+};
+// 3DES-decrypt
+function decrypt3des(text) {
+    let key = CryptoJS.enc.Utf8.parse('0123456789abcdef01234567'); // 24字节密钥
+	let iv = CryptoJS.enc.Utf8.parse('abcdef0123456789abcdef01'); // 24字节偏移量
+	let decrypted  = CryptoJS.TripleDES.decrypt(text, key, {
+	    mode: CryptoJS.mode.CBC, // 加密模式
+	    padding: CryptoJS.pad.Pkcs7, // 填充方式
+	    iv,
+	});
+	return decrypted.toString(CryptoJS.enc.Utf8);
+};
+console.log(encrypt3des('text'))
+console.log(decrypt3des('hhCS773ry1U='))
+
 ```
