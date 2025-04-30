@@ -2,7 +2,7 @@
 <!-- -->
 
 ```
-import CryptoJS from 'https://deno.land/x/cryptojs@v1.0.5/cryptojs.js';
+import CryptoJS from 'https://deno.land/x/cryptojs@v1.0.7/cryptojs.js';
 
 // CryptoJS.MD5('message').toString();
 // CryptoJS.SHA256('message').toString();
